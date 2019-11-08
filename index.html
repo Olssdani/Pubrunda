@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="index.css">
+<title>PUB RUNDAN</title>
+</head>
+<body>
+	<div>
+		<p id="Header">PUB RUNDAN!</p>
+		<p id="Header-text">Idag är det dagen där de smäller, DE ÄR FUCKING DAGS FÖR PUBRUNDA!!!!</p>
+	<div>
+	<audio id="myAudio">
+  		<source src="sound.mp3" type="audio/mpeg">
+  		Your browser does not support the audio element.
+	</audio>
+	<div id="CountDown">
+		<p id="Current"></p>
+		<p id="Next"></p>
+		<ol id="List"></ol>
+		<script>
+			var audio = document.getElementById("myAudio"); 
+			//var audio = new Audio('sound.wav');
+			
+			function addZero(i) {
+			  if (i < 10) {
+			    i = "0" + i;
+			  }
+			  return i;
+			}
+			var stations=[	"Tagga!", 
+							"Världens bar",
+							"Cromwell bar", 
+							"Mitropa", 
+							"Broadway",
+							"Vila bar",
+							"The Bishop Arms",
+							"The Black Lion Inn",
+							"Babylhouse",
+							"Lion Bar",
+							"O'Learys",
+							"Highlander Inn",
+							"Den salige munken",
+							"Simons Sex Dungeon"];
+
+			var EndTimes =[	new Date("Nov 9, 2019 17:00:00"),
+							new Date("Nov 9, 2019 18:00:00"),
+							new Date("Nov 9, 2019 18:22:00"),
+							new Date("Nov 9, 2019 18:46:00"),
+							new Date("Nov 9, 2019 19:12:20"),
+							new Date("Nov 9, 2019 19:34:00"),
+							new Date("Nov 9, 2019 19:59:00"),
+							new Date("Nov 9, 2019 20:25:00"),
+							new Date("Nov 9, 2019 20:50:00"),
+							new Date("Nov 9, 2019 21:18:00"),
+							new Date("Nov 9, 2019 21:42:00"),
+							new Date("Nov 9, 2019 22:05:00"),
+							new Date("Nov 9, 2019 22:28:00"), 
+							new Date("Nov 10, 2019 03:00:00")];
+
+			for(var increment = 0; increment < EndTimes.length; increment++)
+			{
+				var ol = document.getElementById("List");
+			    var li = document.createElement("li");
+			    var text = " " + stations[increment] + " slutar vid " +addZero(EndTimes[increment].getHours())+": " +addZero(EndTimes[increment].getMinutes());
+			    li.setAttribute('id',text);
+			    li.appendChild(document.createTextNode(text));
+			    ol.appendChild(li);
+			}
+			var lastI;
+			for(var increment = 0; increment < EndTimes.length; increment++){
+				var distance = EndTimes[increment].getTime() - new Date().getTime();
+				if(distance > 0){
+					lastI = increment;
+					break;
+				}
+			}
+					
+
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+			  // Get today's date and time
+			  var now = new Date().getTime();
+
+			  // Find the distance between now and the count down date
+			  var i = 0;
+			  while(true){
+
+			  	var distance = EndTimes[i].getTime() - now;
+			  	if(distance >0){
+			  		break;
+			  	}
+			  	i++;
+			  }
+
+			console.log("Last " +lastI + " Current " +i )
+			if(lastI !== i){
+				audio.play();
+				lastI = i;
+			}
+			  
+
+			  // Time calculations for days, hours, minutes and seconds
+			  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			  minutes += (days*24+hours)*60;
+			  // Display the result in the element with id="demo"
+			  document.getElementById("Current").innerHTML = "Nuvarande station: "+ stations[i];
+
+			  document.getElementById("Next").innerHTML = "Vi rör oss till "+ stations[i+1]+ " om " + minutes + "m " + seconds + "s"; 
+
+			}, 1000);
+
+
+		</script>
+
+	</div>
+
+</body>
+</html>
